@@ -80,9 +80,8 @@ public class IssueClientImpl implements IssueClient, RestParamConstants, RestPat
         if (status == HttpURLConnection.HTTP_OK) {
             InputStream inputStream = method.getResponseBodyAsStream();
             JsonObject jsonObject = GsonParserUtil.parseJsonObject(inputStream);
-            IssueBean issueBean = gson.fromJson(jsonObject, IssueBean.class);
             method.releaseConnection();
-            return issueBean;
+            return IssueParser.parse(jsonObject);
         } else {
             method.releaseConnection();
             throw new RestException(method);
