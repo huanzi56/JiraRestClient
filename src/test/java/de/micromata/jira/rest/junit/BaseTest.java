@@ -36,8 +36,8 @@ public class BaseTest implements JqlConstants, RestPathConstants {
     @Before
     public void connect() throws URISyntaxException, IOException {
 
-        ProxyHost proxy = new ProxyHost("proxy", 3128);
+//        ProxyHost proxy = new ProxyHost("proxy", 3128);
         URI uri = new URI(TEST_SYSTEM_URL);
-        jiraRestClient = JiraRestClient.create(uri, USERNAME, PASSWORD, proxy);
+        jiraRestClient = JiraRestClient.create(uri, USERNAME, PASSWORD, null);
     }
 }

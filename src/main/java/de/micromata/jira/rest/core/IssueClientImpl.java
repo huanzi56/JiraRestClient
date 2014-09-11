@@ -1,6 +1,5 @@
 package de.micromata.jira.rest.core;
 
-import com.google.gson.Gson;
 import com.google.gson.JsonArray;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
@@ -35,7 +34,6 @@ public class IssueClientImpl implements IssueClient, RestParamConstants, RestPat
     private static final String SEPARATOR = ",";
     private JiraRestClient jiraRestClient = null;
 
-    Gson gson = new Gson();
 
     private IssueClientImpl() {
     }
