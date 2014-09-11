@@ -1,5 +1,6 @@
 package de.micromata.jira.rest.core;
 
+import com.google.gson.Gson;
 import com.google.gson.JsonArray;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
@@ -33,6 +34,8 @@ public class IssueClientImpl implements IssueClient, RestParamConstants, RestPat
 
     private static final String SEPARATOR = ",";
     private JiraRestClient jiraRestClient = null;
+
+    Gson gson = new Gson();
 
     private IssueClientImpl() {
     }
@@ -77,9 +80,9 @@ public class IssueClientImpl implements IssueClient, RestParamConstants, RestPat
         if (status == HttpURLConnection.HTTP_OK) {
             InputStream inputStream = method.getResponseBodyAsStream();
             JsonObject jsonObject = GsonParserUtil.parseJsonObject(inputStream);
-            method.getResponseBodyAsStream();
+            IssueBean issueBean = gson.fromJson(jsonObject, IssueBean.class);
             method.releaseConnection();
-            return IssueParser.parse(jsonObject);
+            return issueBean;
         } else {
             method.releaseConnection();
             throw new RestException(method);
