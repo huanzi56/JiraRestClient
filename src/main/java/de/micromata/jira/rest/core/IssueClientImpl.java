@@ -20,8 +20,7 @@ import javax.ws.rs.core.UriBuilder;
 import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
-import java.net.HttpURLConnection;
-import java.net.URI;
+import java.net.*;
 import java.util.Collections;
 import java.util.List;
 
@@ -134,7 +133,8 @@ public class IssueClientImpl implements IssueClient, RestParamConstants, RestPat
     @Override
     public byte[] getAttachment(URI uri) throws RestException, IOException {
         HttpClient client = jiraRestClient.getClient();
-        GetMethod method = new GetMethod(uri.getPath());
+        String url = uri.toURL().getPath();
+        GetMethod method = new GetMethod(url);
         method.setQueryString(uri.getQuery());
         method.setRequestHeader(HttpHeaders.ACCEPT, MediaType.APPLICATION_OCTET_STREAM);
         int status = client.executeMethod(method);

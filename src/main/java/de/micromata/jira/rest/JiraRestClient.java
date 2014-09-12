@@ -20,6 +20,7 @@ import javax.ws.rs.core.UriBuilder;
 import java.io.IOException;
 import java.net.URI;
 import java.net.URL;
+import java.nio.charset.Charset;
 
 /**
  * Author: Christian Schulze
@@ -70,6 +71,7 @@ public class JiraRestClient implements RestParamConstants, RestPathConstants {
     public int connect(URI uri, String username, String password, ProxyHost proxyHost) throws IOException {
         this.username = username;
         HttpClientParams params = new HttpClientParams();
+        params.setContentCharset("UTF-8");
         params.setAuthenticationPreemptive(true);
         params.setCookiePolicy(CookiePolicy.RFC_2109);
         HostConfiguration hostConfiguration = new HostConfiguration();
