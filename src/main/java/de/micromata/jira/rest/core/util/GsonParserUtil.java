@@ -15,22 +15,18 @@
 
 package de.micromata.jira.rest.core.util;
 
+import com.google.gson.*;
+import com.google.gson.stream.JsonReader;
+import de.micromata.jira.rest.core.domain.VisibilityBean;
+import de.micromata.jira.rest.core.domain.WorklogBean;
+
 import java.io.InputStream;
 import java.io.InputStreamReader;
+import java.io.UnsupportedEncodingException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
-
-import com.google.gson.Gson;
-import com.google.gson.JsonArray;
-import com.google.gson.JsonElement;
-import com.google.gson.JsonObject;
-import com.google.gson.JsonParser;
-import com.google.gson.stream.JsonReader;
-
-import de.micromata.jira.rest.core.domain.VisibilityBean;
-import de.micromata.jira.rest.core.domain.WorklogBean;
 
 /**
  * @author Christian Schulze
@@ -41,20 +37,30 @@ public class GsonParserUtil {
     private static final JsonParser parser = new JsonParser();
 
     public static List<JsonObject> parseJsonObjects(InputStream inputStream) {
-        InputStreamReader reader = new InputStreamReader(inputStream);
-        JsonReader jsonReader = new JsonReader(reader);
-        jsonReader.setLenient(true);
-        JsonElement parse = parser.parse(jsonReader);
-        JsonArray asJsonArray = parse.getAsJsonArray();
-        return parseJsonArray(asJsonArray);
+        try {
+            InputStreamReader reader = new InputStreamReader(inputStream, "UTF-8");
+            JsonReader jsonReader = new JsonReader(reader);
+            jsonReader.setLenient(true);
+            JsonElement parse = parser.parse(jsonReader);
+            JsonArray asJsonArray = parse.getAsJsonArray();
+            return parseJsonArray(asJsonArray);
+        } catch (UnsupportedEncodingException e) {
+            e.printStackTrace();
+        }
+        return null;
     }
 
     public static JsonObject parseJsonObject(InputStream inputStream) {
-        InputStreamReader reader = new InputStreamReader(inputStream);
-        JsonReader jsonReader = new JsonReader(reader);
-        jsonReader.setLenient(true);
-        JsonElement parse = parser.parse(jsonReader);
-        return parse.getAsJsonObject();
+        try {
+            InputStreamReader reader = new InputStreamReader(inputStream, "UTF-8");
+            JsonReader jsonReader = new JsonReader(reader);
+            jsonReader.setLenient(true);
+            JsonElement parse = parser.parse(jsonReader);
+            return parse.getAsJsonObject();
+        } catch (UnsupportedEncodingException e) {
+            e.printStackTrace();
+        }
+        return null;
     }
 
 
@@ -117,6 +123,6 @@ public class GsonParserUtil {
         String jsonString = new Gson().toJson(parent);
         return jsonString;
     }
-    
+
 
 }
